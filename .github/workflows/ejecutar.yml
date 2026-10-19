@@ -1,0 +1,32 @@
+name: Automatizacion Frecuencia Salvaje
+
+on:
+  workflow_dispatch: # Esto crea un botón manual en GitHub para hacerlo correr cuando quieras
+
+jobs:
+  run-pipeline:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Copiar repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.8'
+
+      - name: Instalar FFmpeg y dependencias del sistema
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+
+      - name: Instalar dependencias de Python
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Prueba del sistema
+        run: |
+          echo "¡El entorno de automatización de Frecuencia Salvaje está en marcha!"
+          python3 --version
+          ffmpeg -version
